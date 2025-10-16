@@ -126,17 +126,17 @@ var (
 	}
 	NetworkIdFlag = cli.Uint64Flag{
 		Name:  "networkid",
-		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby, 5=Classic, 6=ClassicTest)",
+		Usage: "Network identifier (integer, 1618=Phoenix mainnet, 3=Ropsten, 4=Rinkeby, 5=Classic, 6=ClassicTest)",
 		Value: eth.DefaultConfig.NetworkId,
 	}
 	ClassicnetFlag = cli.BoolFlag{
 		Name:  "classic",
 		Usage: "Classic network: proof-of-work without DAO hard fork",
-	}	//TODOian verify cli.BoolFlag and ClassicFlag references, set Value?
+	} //TODOian verify cli.BoolFlag and ClassicFlag references, set Value?
 	ClassicTestnetFlag = cli.BoolFlag{
 		Name:  "classictest",
 		Usage: "Classic Morden test network: proof-of-work without DAO hard fork",
-	}	//TODOian verify cli.BoolFlag and ClassicFlag references, set Value?
+	} //TODOian verify cli.BoolFlag and ClassicFlag references, set Value?
 
 	TestnetFlag = cli.BoolFlag{
 		Name:  "testnet",
@@ -1002,12 +1002,12 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
 			cfg.NetworkId = 5
 		}
-		cfg.Genesis = core.DefaultClassicGenesisBlock()	
+		cfg.Genesis = core.DefaultClassicGenesisBlock()
 	case ctx.GlobalBool(ClassicTestnetFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
 			cfg.NetworkId = 6
 		}
-		cfg.Genesis = core.DefaultClassictestGenesisBlock() 
+		cfg.Genesis = core.DefaultClassictestGenesisBlock()
 	case ctx.GlobalBool(DevModeFlag.Name):
 		cfg.Genesis = core.DevGenesisBlock()
 		if !ctx.GlobalIsSet(GasPriceFlag.Name) {
@@ -1099,7 +1099,7 @@ func MakeGenesis(ctx *cli.Context) *core.Genesis {
 	case ctx.GlobalBool(ClassicnetFlag.Name):
 		genesis = core.DefaultClassicGenesisBlock()
 	case ctx.GlobalBool(ClassicTestnetFlag.Name):
-		genesis = core.DefaultClassictestGenesisBlock()	
+		genesis = core.DefaultClassictestGenesisBlock()
 	case ctx.GlobalBool(TestnetFlag.Name):
 		genesis = core.DefaultTestnetGenesisBlock()
 	case ctx.GlobalBool(RinkebyFlag.Name):
@@ -1125,7 +1125,7 @@ func MakeChain(ctx *cli.Context, stack *node.Node) (chain *core.BlockChain, chai
 	} else {
 		engine = ethash.NewFaker()
 		if !ctx.GlobalBool(FakePoWFlag.Name) {
-			engine = ethash.New(			//TODOian outputest get actual dir set
+			engine = ethash.New( //TODOian outputest get actual dir set
 				stack.ResolvePath(eth.DefaultConfig.EthashCacheDir), eth.DefaultConfig.EthashCachesInMem, eth.DefaultConfig.EthashCachesOnDisk,
 				stack.ResolvePath(eth.DefaultConfig.EthashDatasetDir), eth.DefaultConfig.EthashDatasetsInMem, eth.DefaultConfig.EthashDatasetsOnDisk,
 			)
