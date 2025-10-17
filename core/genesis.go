@@ -316,14 +316,8 @@ func DefaultGenesisBlock() *Genesis {
 		GasLimit:   0x989680,
 		Difficulty: big.NewInt(0x080000),
 		Alloc: GenesisAlloc{
-			common.HexToAddress("0x0000000000000000000000000000000000000F0E"): {
-				Balance: new(big.Int).Mul(big.NewInt(5000000), big.NewInt(params.Ether)),
-			},
-			common.HexToAddress("0x0000000000000000000000000000000000000B10"): {
-				Balance: new(big.Int).Mul(big.NewInt(2500000), big.NewInt(params.Ether)),
-			},
-			common.HexToAddress("0x0000000000000000000000000000000000000C0F"): {
-				Balance: new(big.Int).Mul(big.NewInt(2500000), big.NewInt(params.Ether)),
+			common.HexToAddress("0xC18E08577451Be2443097bA74daD9D165aAC6752"): {
+				Balance: new(big.Int).Mul(big.NewInt(20000000), big.NewInt(params.Ether)),
 			},
 		},
 	}
