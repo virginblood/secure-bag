@@ -24,7 +24,7 @@ import (
 )
 
 var (
-	MainnetGenesisHash = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3") // Mainnet genesis hash to enforce below configs on
+	MainnetGenesisHash = common.HexToHash("0x773669d4f74efe2b54630c6ee231f256de573366c45e6a94cda6503ad7e40efb") // Phoenix genesis hash to enforce below configs on
 	TestnetGenesisHash = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d") // Testnet genesis hash to enforce below configs on
 )
 
@@ -40,31 +40,29 @@ var (
 		EIP155Block:    big.NewInt(10),
 		EIP158Block:    big.NewInt(10),
 		ByzantiumBlock: big.NewInt(1700000),
-		DiehardBlock: 	nil,
-		GothamBlock: 	nil,
-		Ethash: new(EthashConfig),
+		DiehardBlock:   nil,
+		GothamBlock:    nil,
+		Ethash:         new(EthashConfig),
 	}
 
-	// MainnetChainConfig is the chain parameters to run a node on the main network.
+	// MainnetChainConfig defines the Phoenix network parameters.
 	MainnetChainConfig = &ChainConfig{
-		ChainId:        big.NewInt(1),
-		HomesteadBlock: big.NewInt(1150000),
-		DAOForkBlock:   big.NewInt(1920000),
-		DAOForkSupport: true,
-		EIP150Block:    big.NewInt(2463000),
-		EIP150Hash:     common.HexToHash("0x2086799aeebeae135c246c65021c82b4e15a2c451340993aacfd2751886514f0"),
-		EIP155Block:    big.NewInt(2675000),
-		EIP158Block:    big.NewInt(2675000),
-		ByzantiumBlock: big.NewInt(4370000),
-		DiehardBlock: 	nil,
-		GothamBlock: 	nil,
-		Ethash: new(EthashConfig),
+		ChainId:        big.NewInt(1618),
+		HomesteadBlock: big.NewInt(0),
+		DAOForkBlock:   nil,
+		DAOForkSupport: false,
+		EIP150Block:    big.NewInt(0),
+		EIP150Hash:     common.Hash{},
+		EIP155Block:    big.NewInt(0),
+		EIP158Block:    big.NewInt(0),
+		ByzantiumBlock: big.NewInt(0),
+		DiehardBlock:   big.NewInt(0),
+		GothamBlock:    big.NewInt(0),
+		Ethash:         new(EthashConfig),
 	}
-
-
 
 	// ClassicChainConfig is the chain parameters to run a node on the main ETC (no DAO fork) network.
-	ClassicChainConfig = &ChainConfig{			//TODOian 	Every hard fork needs verification
+	ClassicChainConfig = &ChainConfig{ //TODOian 	Every hard fork needs verification
 		ChainId:        big.NewInt(1),
 		HomesteadBlock: big.NewInt(1150000),
 		DAOForkBlock:   big.NewInt(1920000),
@@ -74,13 +72,13 @@ var (
 		EIP155Block:    big.NewInt(2675000),
 		EIP158Block:    big.NewInt(2675000),
 		ByzantiumBlock: nil,
-		DiehardBlock: 	big.NewInt(3000000),
-		GothamBlock: 	big.NewInt(5000000),
-		Ethash: new(EthashConfig),
+		DiehardBlock:   big.NewInt(3000000),
+		GothamBlock:    big.NewInt(5000000),
+		Ethash:         new(EthashConfig),
 	}
 
 	// ClassicTestnetChainConfig contains the chain parameters to run a node on the Classic Morden test network.
-	ClassicTestnetChainConfig = &ChainConfig{		//TODOian	Every hard fork needs verification
+	ClassicTestnetChainConfig = &ChainConfig{ //TODOian	Every hard fork needs verification
 		ChainId:        big.NewInt(3),
 		HomesteadBlock: big.NewInt(0),
 		DAOForkBlock:   nil,
@@ -90,11 +88,10 @@ var (
 		EIP155Block:    big.NewInt(10),
 		EIP158Block:    big.NewInt(10),
 		ByzantiumBlock: nil,
-		DiehardBlock: 	big.NewInt(1915000),
-		GothamBlock: 	big.NewInt(2000000),
-		Ethash: new(EthashConfig),
+		DiehardBlock:   big.NewInt(1915000),
+		GothamBlock:    big.NewInt(2000000),
+		Ethash:         new(EthashConfig),
 	}
-
 
 	// RinkebyChainConfig contains the chain parameters to run a node on the Rinkeby test network.
 	RinkebyChainConfig = &ChainConfig{
@@ -107,8 +104,8 @@ var (
 		EIP155Block:    big.NewInt(3),
 		EIP158Block:    big.NewInt(3),
 		ByzantiumBlock: big.NewInt(1035301),
-		DiehardBlock: 	nil,
-		GothamBlock: 	nil,
+		DiehardBlock:   nil,
+		GothamBlock:    nil,
 
 		Clique: &CliqueConfig{
 			Period: 15,
@@ -150,8 +147,8 @@ type ChainConfig struct {
 	EIP158Block *big.Int `json:"eip158Block,omitempty"` // EIP158 HF block
 
 	ByzantiumBlock *big.Int `json:"byzantiumBlock,omitempty"` // Byzantium switch block (nil = no fork, 0 = already on byzantium)
-	DiehardBlock *big.Int `json:"diehardBlock,omitempty"` // Byzantium switch block (nil = no fork, 0 = already on byzantium)
-	GothamBlock *big.Int `json:"gothamBlock,omitempty"` // Byzantium switch block (nil = no fork, 0 = already on byzantium)
+	DiehardBlock   *big.Int `json:"diehardBlock,omitempty"`   // Byzantium switch block (nil = no fork, 0 = already on byzantium)
+	GothamBlock    *big.Int `json:"gothamBlock,omitempty"`    // Byzantium switch block (nil = no fork, 0 = already on byzantium)
 
 	// Various consensus engines
 	Ethash *EthashConfig `json:"ethash,omitempty"`
@@ -370,8 +367,8 @@ type Rules struct {
 	ChainId                                   *big.Int
 	IsHomestead, IsEIP150, IsEIP155, IsEIP158 bool
 	IsByzantium                               bool
-	IsDiehard					  bool
-	IsGotham					  bool
+	IsDiehard                                 bool
+	IsGotham                                  bool
 }
 
 func (c *ChainConfig) Rules(num *big.Int) Rules {

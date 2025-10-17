@@ -139,10 +139,10 @@ func (e *GenesisMismatchError) Error() string {
 // SetupGenesisBlock writes or updates the genesis block in db.
 // The block that will be used is:
 //
-//                          genesis == nil       genesis != nil
-//                       +------------------------------------------
-//     db has no genesis |  main-net default  |  genesis
-//     db has genesis    |  from DB           |  genesis (if compatible)
+//	                     genesis == nil       genesis != nil
+//	                  +------------------------------------------
+//	db has no genesis |  main-net default  |  genesis
+//	db has genesis    |  from DB           |  genesis (if compatible)
 //
 // The stored chain configuration will be updated if it is compatible (i.e. does not
 // specify a fork block below the local head block). In case of a conflict, the
@@ -306,15 +306,26 @@ func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big
 	return g.MustCommit(db)
 }
 
-// DefaultGenesisBlock returns the Ethereum main net genesis block.
+// DefaultGenesisBlock returns the Phoenix main net genesis block.
 func DefaultGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.MainnetChainConfig,
-		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
-		GasLimit:   5000,
-		Difficulty: big.NewInt(17179869184),
-		Alloc:      decodePrealloc(mainnetAllocData),
+		Nonce:      0x50686f656e697830,
+		Timestamp:  1700000000,
+		ExtraData:  hexutil.MustDecode("0x50686f656e69782047656e6573697320426c6f636b"),
+		GasLimit:   0x989680,
+		Difficulty: big.NewInt(0x080000),
+		Alloc: GenesisAlloc{
+			common.HexToAddress("0x0000000000000000000000000000000000000F0E"): {
+				Balance: new(big.Int).Mul(big.NewInt(5000000), big.NewInt(params.Ether)),
+			},
+			common.HexToAddress("0x0000000000000000000000000000000000000B10"): {
+				Balance: new(big.Int).Mul(big.NewInt(2500000), big.NewInt(params.Ether)),
+			},
+			common.HexToAddress("0x0000000000000000000000000000000000000C0F"): {
+				Balance: new(big.Int).Mul(big.NewInt(2500000), big.NewInt(params.Ether)),
+			},
+		},
 	}
 }
 
@@ -336,21 +347,21 @@ func DefaultClassicGenesisBlock() *Genesis {
 		Config:     params.ClassicChainConfig,
 		Nonce:      66,
 		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
-		GasLimit:   0x1388,	
+		GasLimit:   0x1388,
 		Difficulty: big.NewInt(0x0400000000),
 		Alloc:      decodePrealloc(mainnetAllocData),
 	}
 }
 
 // DefaultTestnetGenesisBlock returns the ETC test network genesis block.
-func DefaultClassictestGenesisBlock() *Genesis {		//TODOian	all config needs verify
+func DefaultClassictestGenesisBlock() *Genesis { //TODOian	all config needs verify
 	return &Genesis{
 		Config:     params.ClassicTestnetChainConfig,
 		Nonce:      0x00006d6f7264656e,
-		ExtraData:  hexutil.MustDecode("0x3535353535353535353535353535353535353535353535353535353535353535"),	//TODOian	 missing this from morden.json
+		ExtraData:  hexutil.MustDecode("0x3535353535353535353535353535353535353535353535353535353535353535"), //TODOian	 missing this from morden.json
 		GasLimit:   0x2FEFD8,
 		Difficulty: big.NewInt(0x020000),
-		Alloc:      decodePrealloc(testnetAllocData),	//TODOian	based off of Ropsten, not Morden since Morden is missing data. Preference is 0 pre-alloc 
+		Alloc:      decodePrealloc(testnetAllocData), //TODOian	based off of Ropsten, not Morden since Morden is missing data. Preference is 0 pre-alloc
 	}
 }
 
